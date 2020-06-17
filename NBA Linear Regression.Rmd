@@ -23,6 +23,8 @@ library (janitor)
 library (scales) 
 library(ballr)
 library(knitr)
+library(ggplot2)
+library(ggthemes)
 
 ```
 Now that we have called all of the necessary dependencies. We can now view and use the final standings of the 2018-2019 NBA regular season.
@@ -98,17 +100,32 @@ An analysis will be conducted to determine the accuracy and strength of the rela
 
 Graph these two variable in the respective conferences will result in the following scatter plots.
 
-### Eastern Conference
+
 ```{r}
-plot(Eastern$pdf, Eastern$w, xlab="Point Differential", ylab= "Total Wins", pch=17, col="blue", main = "East PDF vs W", frame=FALSE)
-abline(lm(w ~ pdf, data = Eastern), col = "black")
+ggplot(Eastern, aes(pdf, w)) +
+  geom_point(colour='red', size=3)+
+  geom_smooth(method = "lm", se=F, color='blue')+
+  geom_text(aes(label=eastern_conference))+
+  labs(subtitle = "Linear Regression",
+       y="Wins",
+       x="Point Differential",
+       title = "Eastern Conference",
+       caption = "ballr")
+  
 ``` 
 
-### Western Conference
+
 
 ```{r}
-plot(Western$pdf, Western$w, xlab="Point Differential", ylab= "Wins", pch=15, col="red", main = "West PDF vs W", frame=FALSE)
-abline(lm(w ~ pdf, data = Western), col = "black")
+ggplot(Western, aes(pdf, w)) +
+  geom_point(colour='blue', size=3)+
+  geom_smooth(method = "lm", se=F, color='red')+
+  geom_text(aes(label=western_conference))+
+  labs(subtitle = "Linear Regression",
+       y="Wins",
+       x="Point Differential",
+       title = "Western Conference",
+       caption = "ballr")
 ```
 
 
