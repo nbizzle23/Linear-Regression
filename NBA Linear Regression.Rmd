@@ -6,7 +6,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 ```
 
 ## Introduction
@@ -22,7 +22,6 @@ library (magrittr)
 library (janitor) 
 library (scales) 
 library(ballr)
-library(stargazer)
 library(knitr)
 
 ```
