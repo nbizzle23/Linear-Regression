@@ -1,0 +1,200 @@
+---
+title: "NBA LinearRegression"
+author: "Nicholas Burke"
+date: "17 June 2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+Simple linear regression is one of the most useful machine learning algorithm in the field of data science. To demonstrate its effectiveness, using data from the 2018-2019 NBA regular season, we will construct a linear regression model to determine a team's wins projection based on their point differential over the course of the season. Upon further examination we will be able to determine the presence of and the strength of the relationship between these variables.
+
+Using the ballr package in R, we will be able to extract NBA Team data directly into the console. To begin here are the library dependencies that will be used in this project.
+
+## NBA Statistics in R
+
+```{r}
+library (magrittr) 
+library (janitor) 
+library (scales) 
+library(ballr)
+library(stargazer)
+library(knitr)
+
+```
+Now that we have called all of the necessary dependencies. We can now view and use the final standings of the 2018-2019 NBA regular season.
+
+```{r results='asis'}
+df<- NBAStandingsByDate(date_string = "2019-06-30")
+kable(df, caption = "NBA Standings")
+```
+
+A brief synopsis of each category’s abbreviations.
+Separated by 
+
+•	w- number of team’s wins
+
+•	l- number of team’s losses
+
+•	w_lpercent – the team’s win loss percentage determine by number of wins divided by 82(total number of games played)
+
+•	gb- games behind the first place team in that respective division
+
+•	ps_g- total team’s points scored per game 
+
+•	ps_a- total team’s points allowed per game
+
+•	pw, pl  will not be used in the project.
+
+As indicated by the asterisks the top 8 teams of each conference makes the playoffs. 
+
+## Feature Engineer
+In order to conduct some exploratory data analysis we will first to need to transform this data into a more manageable data frames. 
+
+First, let’s examine the structure of the data frame for the final standings for the 2018-2019 NBA season.
+
+
+```{r}
+str(df)
+```
+
+The schedules for each team are imbalanced with respect to their own conference, thus we will examine both the Eastern and the Western conferences separately.
+
+
+```{r}
+Eastern <- df$East
+Western <- df$West
+```
+Next we will create a new column for each team’s point differential, called pdf, calculated by subtracting the points scored column from the points against column.
+```{r}
+Eastern$pdf<- Eastern$ps_g-Eastern$pa_g
+Western$pdf<- Western$ps_g-Western$pa_g
+```
+
+```{r results="asis"}
+kable(Eastern, caption = "Eastern Conference")
+kable(Western, caption = "Western Conference")
+```
+
+
+Let’s take a closer look at the of the Eastern and Western conference data structures.
+
+```{r}
+summary(Eastern)
+```
+As we can see the median number of wins in the Eastern Conference is 39.2, with the average point differential being -0.8067 points among all teams.
+
+```{r}
+summary(Western)
+```
+The median number of wins is higher in the Western Conference at  42.8, with the average point differential being 0.7867 points among all teams.
+
+## Exploratory Data Analysis
+
+An analysis will be conducted to determine the accuracy and strength of the relationship between wins and point differential.
+
+Graph these two variable in the respective conferences will result in the following scatter plots.
+
+### Eastern Conference
+```{r}
+plot(Eastern$pdf, Eastern$w, xlab="Point Differential", ylab= "Total Wins", pch=17, col="blue", main = "East PDF vs W", frame=FALSE)
+abline(lm(w ~ pdf, data = Eastern), col = "black")
+``` 
+
+### Western Conference
+
+```{r}
+plot(Western$pdf, Western$w, xlab="Point Differential", ylab= "Wins", pch=15, col="red", main = "West PDF vs W", frame=FALSE)
+abline(lm(w ~ pdf, data = Western), col = "black")
+```
+
+
+As you can see there is a clear linear relationship between point differential and wins for both conferences. 
+
+Below is the numerical correlation between point differential and wins.
+
+
+```{r}
+cor(Eastern[,c('pdf','w')])
+```
+
+
+```{r}
+cor(Western[,c('pdf','w')])
+```
+
+As expected there is a strong linear relationship between these two variables. Linear regression is the best way to predict how many wins a team will have given the point differential.
+
+## Linear Regression Model To Predict Wins
+
+We will start by using the lm() function to fit a simple linear regression lm() model. The simple syntax for lm(y∼x,data), where y is the response variable wins , x is the  predictor variable point differential. We will construction a simple linear regression model for both conferences.
+
+
+```{r}
+WinsWest = lm(w ~ pdf, data=Western)
+summary(WinsWest)
+
+```
+
+```{r}
+WinsEast = lm(w ~ pdf, data=Eastern)
+summary(WinsEast)
+
+```
+
+The R-squared values is the proportion of variance explained and so it always takes on a value between 0 and 1, and is independent of the scale of  Y. Getting values of 0.9269 and 0.977 are very high indicating significance between the two variable. 
+
+## Regression Equation
+Below are the regression equations for the Eastern Conference
+
+**Wins= 41.1 + 2.35 pdf**
+
+and for the Western Conference,
+
+**Wins = 40.8 + 2.54 pdf**
+
+The intercept of 41.1 wins for the Eastern Conference is greater than the mean number of wins, 39.2. The intercept of 40.8 for the Western conference is below the mean number wins, 42.8. 
+In both cases the point differential is greater than the average. These results suggest that the Western conference overall is performing better than expected in comparison to the Eastern conference. This linear model indicates that the larger the point differential for a team is the more wins they are projected to have. 
+
+### Statistics
+Here are some summary statistics for our linear regression model.
+
+### Sum of Squared Errors
+
+SSE is the measure of the discrepancy between the data and an estimation model.
+
+For the Eastern Conference
+```{r}
+SSEEast=sum(WinsEast$residuals^2)
+SSEEast
+
+```
+
+For the Western Conference
+```{r}
+SSEWest=sum(WinsWest$residuals^2)
+SSEWest
+
+```
+
+### Root Mean Squared Error
+
+RMSE is used to measure the differences between values predicted by a model or an estimator and the values observed.
+
+For the Eastern Conference
+
+```{r}
+RMSEEast = sqrt(SSEEast/nrow(Eastern))
+RMSEEast
+```
+
+For the Western Conference
+
+```{r}
+RMSEWest = sqrt(SSEWest/nrow(Western))
+RMSEWest
+```
