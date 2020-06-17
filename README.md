@@ -11,11 +11,13 @@ These are the packages you need to install as well the installation process
 
 ```
 instal.packages(magrittr) 
-install.packages( (janitor) 
-install.packages( (scales) 
-install.packages((ballr)
-install.packages((knitr)
+install.packages(janitor) 
+install.packages(scales) 
+install.packages(ballr)
+install.packages(knitr)
 install.packages(shiny)
+install.packages(ggplot2)
+install.packages(ggthemes)
 ```
 
 ### Installing
@@ -28,6 +30,8 @@ library (janitor)
 library (scales) 
 library(ballr)
 library(knitr)
+library(ggplot2)
+library(ggthemes)
 ```
 
 And use the shiny package when running the shiny html
