@@ -100,7 +100,10 @@ An analysis will be conducted to determine the accuracy and strength of the rela
 
 Graph these two variable in the respective conferences will result in the following scatter plots.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> dd70c878c29af9a42e848d47ada8293d2241693a
 ```{r}
 ggplot(Eastern, aes(pdf, w)) +
   geom_point(colour='red', size=3)+
@@ -111,10 +114,15 @@ ggplot(Eastern, aes(pdf, w)) +
        x="Point Differential",
        title = "Eastern Conference",
        caption = "ballr")
+<<<<<<< HEAD
   
 ``` 
 
 
+=======
+``` 
+
+>>>>>>> dd70c878c29af9a42e848d47ada8293d2241693a
 
 ```{r}
 ggplot(Western, aes(pdf, w)) +
