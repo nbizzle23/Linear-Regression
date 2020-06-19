@@ -1,7 +1,7 @@
 # Linear Regression on NBA data
-A linear regression model for wins projection in a NBA season based on point differential
+A [linear regression model](https://rpubs.com/nburke2/629014) for wins projection in a NBA season based on point differential
 
-* [Linear Regression Model](https://rpubs.com/nburke2/629014)
+
 
 ## Getting Started
 
