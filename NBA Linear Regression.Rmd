@@ -1,5 +1,5 @@
 ---
-title: "NBA LinearRegression"
+title: "NBA Linear Regression"
 author: "Nicholas Burke"
 date: "17 June 2020"
 output: html_document

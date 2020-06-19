@@ -1,6 +1,8 @@
 # Linear Regression on NBA data
 A linear regression model for wins projection in a NBA season based on point differential
 
+* [Linear Regression Model](https://rpubs.com/nburke2/629014)
+
 ## Getting Started
 
 This code can directly inputted into your on your local machine to produce the resulting html and images . See section below on how to replicated this project in RStudio.
@@ -16,8 +18,11 @@ install.packages( (scales)
 install.packages((ballr)
 install.packages((knitr)
 install.packages(shiny)
+<<<<<<< HEAD
 install.packages(ggplot2)
 install.packages(ggthemes)
+=======
+>>>>>>> e614257b69a973feb8ff0afeb3d72683b011ef25
 ```
 
 ### Installing
@@ -30,8 +35,11 @@ library (janitor)
 library (scales) 
 library(ballr)
 library(knitr)
+<<<<<<< HEAD
 library(ggplot2)
 library(ggthemes)
+=======
+>>>>>>> e614257b69a973feb8ff0afeb3d72683b011ef25
 ```
 
 And use the shiny package when running the shiny html
@@ -56,7 +64,7 @@ Add additional notes about how to deploy this on a live system
 
 ## Author
 
-* **Nicholas Burke ** - *Final Product* - [Rpubs.com](https://rpubs.com/nburke2/629014)
+* **Nicholas Burke ** - 
 
 See [my website](https://rpubs.com/nburke2) for my other this projects.
 
@@ -65,4 +73,7 @@ See [my website](https://rpubs.com/nburke2) for my other this projects.
 
 * Dr. Liping Liu
 * Inspired by my passion for basketball
+<<<<<<< HEAD
 
+=======
+>>>>>>> e614257b69a973feb8ff0afeb3d72683b011ef25
