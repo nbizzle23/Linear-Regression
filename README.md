@@ -18,16 +18,9 @@ install.packages(scales)
 install.packages(ballr)
 install.packages(knitr)
 install.packages(shiny)
-<<<<<<< HEAD
-<<<<<<< HEAD
 install.packages(ggplot2)
 install.packages(ggthemes)
-=======
->>>>>>> e614257b69a973feb8ff0afeb3d72683b011ef25
-=======
-install.packages(ggplot2)
-install.packages(ggthemes)
->>>>>>> dd70c878c29af9a42e848d47ada8293d2241693a
+
 ```
 
 ### Installing
@@ -40,17 +33,8 @@ library (janitor)
 library (scales) 
 library(ballr)
 library(knitr)
-<<<<<<< HEAD
-<<<<<<< HEAD
 library(ggplot2)
 library(ggthemes)
-=======
->>>>>>> e614257b69a973feb8ff0afeb3d72683b011ef25
-=======
-library(ggplot2)
-library(ggthemes)
->>>>>>> dd70c878c29af9a42e848d47ada8293d2241693a
-```
 
 And use the shiny package when running the shiny html
 
@@ -83,7 +67,6 @@ See [my website](https://rpubs.com/nburke2) for my other this projects.
 
 * Dr. Liping Liu
 * Inspired by my passion for basketball
-<<<<<<< HEAD
 
-=======
->>>>>>> e614257b69a973feb8ff0afeb3d72683b011ef25
+
+
