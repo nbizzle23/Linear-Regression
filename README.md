@@ -20,7 +20,7 @@ install.packages(knitr)
 install.packages(shiny)
 install.packages(ggplot2)
 install.packages(ggthemes)
-
+install.packages(caTools)
 ```
 
 ### Installing
@@ -35,6 +35,7 @@ library(ballr)
 library(knitr)
 library(ggplot2)
 library(ggthemes)
+library(caTools)
 
 And use the shiny package when running the shiny html
 
