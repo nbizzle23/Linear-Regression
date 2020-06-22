@@ -22,6 +22,9 @@ library (magrittr)
 library (janitor) 
 library (scales) 
 library(ballr)
+library(ggplot2)
+library(ggthemes)
+library(caTools)
 
 ```
 Now that we have called all of the necessary dependencies. We can now view and use the final standings of the 2018-2019 NBA regular season.
@@ -91,6 +94,9 @@ summary(Western)
 ```
 The median number of wins is higher in the Western Conference at  42.8, with the average point differential being 0.7867 points among all teams.
 
+
+
+
 ## Exploratory Data Analysis
 
 An analysis will be conducted to determine the accuracy and strength of the relationship between wins and point differential.
@@ -143,24 +149,49 @@ As expected there is a strong linear relationship between these two variables. L
 
 ## Linear Regression Model To Predict Wins
 
-We will start by using the lm() function to fit a simple linear regression lm() model. The simple syntax for lm(y∼x,data), where y is the response variable wins , x is the  predictor variable point differential. We will construction a simple linear regression model for both conferences.
+We can now start to build our linear regression model, first we will  need to create a training set and a testing set for both the Eastern and Western Conference data.
+
+### Train and Test Data 
+
+We will split the data accordingly, in order to test the accuracy of our model.
+
+```{r}
+set.seed(101) 
+Esample <- sample.split(Eastern$pdf, SplitRatio = 0.70) 
+Etrain = subset(Eastern, Esample == TRUE)
+Etest = subset(Eastern, Esample == FALSE)
+
+```
+
+```{r}
+set.seed(101) 
+Wsample <- sample.split(Western$pdf, SplitRatio = 0.70)
+Wtrain = subset(Western, Wsample == TRUE)
+Wtest = subset(Western, Wsample == FALSE)
+
+```
+
+
+We will use the lm() function to fit a simple linear regression lm() model. The simple syntax for lm(y∼x,data), where y is the response variable wins , x is the  predictor variable point differential. We will construction a simple linear regression model for both conferences.
 
 
 ```{r, echo=FALSE}
-WinsWest = lm(w ~ pdf, data=Western)
+WinsWest = lm(w ~ pdf, data=Wtrain)
 summary(WinsWest)
 
 ```
 
 ```{r, echo=FALSE}
-WinsEast = lm(w ~ pdf, data=Eastern)
+WinsEast = lm(w ~ pdf, data=Etrain)
 summary(WinsEast)
 
 ```
 
-The R-squared values is the proportion of variance explained and so it always takes on a value between 0 and 1, and is independent of the scale of  Y. Getting values of 0.9269 and 0.977 are very high indicating significance between the two variable. 
+### Interpretation
 
-## Regression Equation
+The R-squared values is the proportion of variance explained and so it always takes on a value between 0 and 1, and is independent of the scale of  Y. Getting values of 0.9555 and 0.9802 are very high indicating that our model fits well. 
+
+### Regression Equation
 Below are the regression equations for the Eastern Conference
 
 **Wins= 41.1 + 2.35 pdf**
@@ -170,9 +201,35 @@ and for the Western Conference,
 **Wins = 40.8 + 2.54 pdf**
 
 The intercept of 41.1 wins for the Eastern Conference is greater than the mean number of wins, 39.2. The intercept of 40.8 for the Western conference is below the mean number wins, 42.8. 
-In both cases the point differential is greater than the average. These results suggest that the Western conference overall is performing better than expected in comparison to the Eastern conference. This linear model indicates that the larger the point differential for a team is the more wins they are projected to have. 
+In both cases the point differential is greater than the average. These results suggest that the Western conference overall is performing better than expected in comparison to the Eastern conference. This linear model indicates that the larger the point differential for a team is the more wins they are projected to have.
 
-### Statistics
+### Prediction
+
+Lastly, we will test our model using our test set for each conference to see how well our wins projection compares to the actual amount.
+
+```{r}
+East.pred <- predict(WinsEast, Etest)
+West.pred <- predict(WinsWest, Wtest)
+
+```
+
+For the Eastern Conference
+```{r}
+E.results <- cbind(Etest$eastern_conference,East.pred,Etest$w) 
+colnames(E.results) <- c('Team','Projected','Actual')
+E.results <- as.data.frame(E.results)
+renderTable(E.results)
+```
+
+For the Western Conference
+```{r}
+W.results <- cbind(Wtest$western_conference,West.pred,Wtest$w) 
+colnames(W.results) <- c('Team','Projected','Actual')
+W.results <- as.data.frame(W.results)
+renderTable(W.results)
+```
+
+
 Here are some summary statistics for our linear regression model.
 
 ### Sum of Squared Errors
@@ -180,14 +237,14 @@ Here are some summary statistics for our linear regression model.
 SSE is the measure of the discrepancy between the data and an estimation model.
 
 For the Eastern Conference
-```{r, echo=FALSE}
+```{r}
 SSEEast=sum(WinsEast$residuals^2)
 SSEEast
 
 ```
 
 For the Western Conference
-```{r, echo=FALSE}
+```{r}
 SSEWest=sum(WinsWest$residuals^2)
 SSEWest
 
@@ -199,15 +256,18 @@ RMSE is used to measure the differences between values predicted by a model or a
 
 For the Eastern Conference
 
-```{r, echo=FALSE}
+```{r}
 RMSEEast = sqrt(SSEEast/nrow(Eastern))
 RMSEEast
 ```
 
 For the Western Conference
 
-```{r, echo=FALSE}
+```{r}
 RMSEWest = sqrt(SSEWest/nrow(Western))
 RMSEWest
 ```
+
+
+
 

@@ -1076,71 +1076,168 @@ NBA Standings
 </div>
 <div id="linear-regression-model-to-predict-wins" class="section level2">
 <h2>Linear Regression Model To Predict Wins</h2>
-<p>We will start by using the lm() function to fit a simple linear regression lm() model. The simple syntax for lm(y∼x,data), where y is the response variable wins , x is the predictor variable point differential. We will construction a simple linear regression model for both conferences.</p>
+<p>We can now start to build our linear regression model, first we will need to create a training set and a testing set for both the Eastern and Western Conference data.</p>
+<div id="train-and-test-data" class="section level3">
+<h3>Train and Test Data</h3>
+<p>We will split the data accordingly, in order to test the accuracy of our model.</p>
+<p>We will use the lm() function to fit a simple linear regression lm() model. The simple syntax for lm(y∼x,data), where y is the response variable wins , x is the predictor variable point differential. We will construction a simple linear regression model for both conferences.</p>
 <pre><code>## 
 ## Call:
-## lm(formula = w ~ pdf, data = Western)
+## lm(formula = w ~ pdf, data = Wtrain)
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -4.7486 -1.0873 -0.0046  1.6840  5.1661 
+## -4.5033 -1.0871 -0.5612  1.5801  3.9548 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  40.7998     0.7676   53.15  &lt; 2e-16 ***
-## pdf           2.5427     0.1903   13.36  5.7e-09 ***
+## (Intercept)  42.1437     0.8281   50.89 2.46e-11 ***
+## pdf           2.3768     0.1813   13.11 1.09e-06 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 2.916 on 13 degrees of freedom
-## Multiple R-squared:  0.9321, Adjusted R-squared:  0.9269 
-## F-statistic: 178.5 on 1 and 13 DF,  p-value: 5.702e-09</code></pre>
+## Residual standard error: 2.498 on 8 degrees of freedom
+## Multiple R-squared:  0.9555, Adjusted R-squared:   0.95 
+## F-statistic: 171.8 on 1 and 8 DF,  p-value: 1.09e-06</code></pre>
 <pre><code>## 
 ## Call:
-## lm(formula = w ~ pdf, data = Eastern)
+## lm(formula = w ~ pdf, data = Etrain)
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -2.4746 -1.7013  0.4655  1.0098  3.5589 
+## -2.1766 -1.1911 -0.3647  1.1894  2.9488 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  41.0958     0.5260   78.13  &lt; 2e-16 ***
-## pdf           2.3501     0.0963   24.40 3.04e-12 ***
+## (Intercept)  40.5214     0.5834   69.46 2.05e-12 ***
+## pdf           2.4216     0.1216   19.92 4.21e-08 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 2.015 on 13 degrees of freedom
-## Multiple R-squared:  0.9786, Adjusted R-squared:  0.977 
-## F-statistic: 595.5 on 1 and 13 DF,  p-value: 3.045e-12</code></pre>
-<p>The R-squared values is the proportion of variance explained and so it always takes on a value between 0 and 1, and is independent of the scale of Y. Getting values of 0.9269 and 0.977 are very high indicating significance between the two variable.</p>
+## Residual standard error: 1.783 on 8 degrees of freedom
+## Multiple R-squared:  0.9802, Adjusted R-squared:  0.9778 
+## F-statistic: 396.6 on 1 and 8 DF,  p-value: 4.212e-08</code></pre>
 </div>
-<div id="regression-equation" class="section level2">
-<h2>Regression Equation</h2>
+<div id="interpretation" class="section level3">
+<h3>Interpretation</h3>
+<p>The R-squared values is the proportion of variance explained and so it always takes on a value between 0 and 1, and is independent of the scale of Y. Getting values of 0.9555 and 0.9802 are very high indicating that our model fits well.</p>
+</div>
+<div id="regression-equation" class="section level3">
+<h3>Regression Equation</h3>
 <p>Below are the regression equations for the Eastern Conference</p>
 <p><strong>Wins= 41.1 + 2.35 pdf</strong></p>
 <p>and for the Western Conference,</p>
 <p><strong>Wins = 40.8 + 2.54 pdf</strong></p>
 <p>The intercept of 41.1 wins for the Eastern Conference is greater than the mean number of wins, 39.2. The intercept of 40.8 for the Western conference is below the mean number wins, 42.8. In both cases the point differential is greater than the average. These results suggest that the Western conference overall is performing better than expected in comparison to the Eastern conference. This linear model indicates that the larger the point differential for a team is the more wins they are projected to have.</p>
-<div id="statistics" class="section level3">
-<h3>Statistics</h3>
+</div>
+<div id="prediction" class="section level3">
+<h3>Prediction</h3>
+<p>Lastly, we will test our model using our test set for each conference to see how well our wins projection compares to the actual amount.</p>
+<p>For the Eastern Conference</p>
+<table>
+<caption>Eastern Conference</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">Team</th>
+<th align="left">Projected</th>
+<th align="left">Actual</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>3</td>
+<td align="left">Philadelphia 76ers*</td>
+<td align="left">47.0597978990053</td>
+<td align="left">51</td>
+</tr>
+<tr class="even">
+<td>11</td>
+<td align="left">Washington Wizards</td>
+<td align="left">33.4986630456518</td>
+<td align="left">32</td>
+</tr>
+<tr class="odd">
+<td>12</td>
+<td align="left">Atlanta Hawks</td>
+<td align="left">25.7494431294497</td>
+<td align="left">29</td>
+</tr>
+<tr class="even">
+<td>13</td>
+<td align="left">Chicago Bulls</td>
+<td align="left">19.9375281922982</td>
+<td align="left">22</td>
+</tr>
+<tr class="odd">
+<td>14</td>
+<td align="left">Cleveland Cavaliers</td>
+<td align="left">17.2737338461038</td>
+<td align="left">19</td>
+</tr>
+</tbody>
+</table>
+<p>For the Western Conference</p>
+<table>
+<caption>Western Conference</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">Team</th>
+<th align="left">Projected</th>
+<th align="left">Actual</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>3</td>
+<td align="left">Houston Rockets*</td>
+<td align="left">53.5525308020923</td>
+<td align="left">53</td>
+</tr>
+<tr class="even">
+<td>11</td>
+<td align="left">Minnesota Timberwolves</td>
+<td align="left">38.578494634984</td>
+<td align="left">36</td>
+</tr>
+<tr class="odd">
+<td>12</td>
+<td align="left">Dallas Mavericks</td>
+<td align="left">39.2915439762749</td>
+<td align="left">33</td>
+</tr>
+<tr class="even">
+<td>13</td>
+<td align="left">Memphis Grizzlies</td>
+<td align="left">35.9639803835842</td>
+<td align="left">33</td>
+</tr>
+<tr class="odd">
+<td>14</td>
+<td align="left">New Orleans Pelicans</td>
+<td align="left">38.8161777487477</td>
+<td align="left">33</td>
+</tr>
+</tbody>
+</table>
 <p>Here are some summary statistics for our linear regression model.</p>
 </div>
 <div id="sum-of-squared-errors" class="section level3">
 <h3>Sum of Squared Errors</h3>
 <p>SSE is the measure of the discrepancy between the data and an estimation model.</p>
 <p>For the Eastern Conference</p>
-<pre><code>## [1] 52.77624</code></pre>
+<pre><code>## [1] 25.43554</code></pre>
 <p>For the Western Conference</p>
-<pre><code>## [1] 110.531</code></pre>
+<pre><code>## [1] 49.92625</code></pre>
 </div>
 <div id="root-mean-squared-error" class="section level3">
 <h3>Root Mean Squared Error</h3>
 <p>RMSE is used to measure the differences between values predicted by a model or an estimator and the values observed.</p>
 <p>For the Eastern Conference</p>
-<pre><code>## [1] 1.875744</code></pre>
+<pre><code>## [1] 1.302191</code></pre>
 <p>For the Western Conference</p>
-<pre><code>## [1] 2.714541</code></pre>
+<pre><code>## [1] 1.824395</code></pre>
 </div>
 </div>
 
