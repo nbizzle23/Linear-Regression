@@ -40,16 +40,13 @@ library(caTools)
 And use the shiny package when running the shiny html
 
 ```
+```
 library(shiny)
 
 ```
 
 Will be able to recreate both html documents.
 
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
 
 ## Built With
 
