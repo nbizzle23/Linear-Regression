@@ -86,13 +86,15 @@ kable(Western, caption = "Western Conference")
 Let’s take a closer look at the of the Eastern and Western conference data structures.
 
 ```{r}
-summary(Eastern)
+kable(summary(Eastern), caption = "Eastern Confernce")
 ```
+
 As we can see the median number of wins in the Eastern Conference is 39.2, with the average point differential being -0.8067 points among all teams.
 
 ```{r}
-summary(Western)
+kable(summary(Western), caption = "Western Conference")
 ```
+
 The median number of wins is higher in the Western Conference at  42.8, with the average point differential being 0.7867 points among all teams.
 
 ## Exploratory Data Analysis
@@ -137,12 +139,12 @@ Below is the numerical correlation between point differential and wins.
 
 
 ```{r}
-cor(Eastern[,c('pdf','w')])
+kable(cor(Eastern[,c('pdf','w')]), caption = "Eastern Conference")
 ```
 
 
 ```{r}
-cor(Western[,c('pdf','w')])
+kable(cor(Western[,c('pdf','w')]), caption = "Western Conference")
 ```
 
 As expected there is a strong linear relationship between these two variables. Linear regression is the best way to predict how many wins a team will have given the point differential.
@@ -174,13 +176,15 @@ Wtest = subset(Western, Wsample == FALSE)
 
 We will use the lm() function to fit a simple linear regression lm() model. The simple syntax for lm(y∼x,data), where y is the response variable wins , x is the  predictor variable point differential. We will construction a simple linear regression model for both conferences.
 
-
+For the Western Conference
 ```{r, echo=FALSE}
 WinsWest = lm(w ~ pdf, data=Wtrain)
 summary(WinsWest)
 
 ```
 
+
+For the Eastern Conference
 ```{r, echo=FALSE}
 WinsEast = lm(w ~ pdf, data=Etrain)
 summary(WinsEast)
@@ -213,7 +217,7 @@ West.pred <- predict(WinsWest, Wtest)
 
 ```
 
-For the Eastern Conference
+
 ```{r}
 E.results <- cbind(Etest$eastern_conference,East.pred,Etest$w) 
 colnames(E.results) <- c('Team','Projected','Actual')
@@ -221,7 +225,7 @@ E.results <- as.data.frame(E.results)
 kable(E.results, caption = "Eastern Conference")
 ```
 
-For the Western Conference
+
 ```{r}
 W.results <- cbind(Wtest$western_conference,West.pred,Wtest$w) 
 colnames(W.results) <- c('Team','Projected','Actual')
