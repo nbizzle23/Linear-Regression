@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 
 Simple linear regression is one of the most useful machine learning algorithm in the field of data science. To demonstrate its effectiveness, using data from the 2018-2019 NBA regular season, we will construct a linear regression model to determine a team's wins projection based on their point differential over the course of the season. Upon further examination we will be able to determine the presence of and the strength of the relationship between these variables.
 
-Using the ballr package in R, we will be able to extract NBA Team data from [basketballreference.com](https://www.basketball-reference.com/) directly into the console. To begin here are the library dependencies that will be used in this project.
+Using the ballr package in R, we will be able to extract NBA Team data from [basketballreference.com](https://www.basketball-reference.com/) directly into the console. 
 
 ## NBA Statistics in R
 
